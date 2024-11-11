@@ -10,13 +10,14 @@ var url = require('url');
 var StringDecoder = require('string_decoder').StringDecoder;
 var config = require('./config');
 var fs = require('fs');
-var _data = require('./lib/data');
+var handlers = require('./lib/handlers');
+// var _data = require('./lib/data');
 
-//testing
-// @TODO delete this
-_data.read('test', 'newFile1', function(err, data){
-    console.log('this was the error', err, 'and this was the data', data);
-});
+// //testing
+// // @TODO delete this
+// _data.delete('test', 'newFile', function(err, data){
+//     console.log('this was the error', err, 'and this was the data', data);
+// });
 
 //the server should respond to all request with a string 
 var httpServer = http.createServer(function(req, res){
@@ -107,43 +108,11 @@ var unifiedServer = function(req, res){
 
     });    
 };
-//define the hendlers
-var handlers = {};
 
-//sample handler
-
-// handlers.sample = function(data, callback){
-//     //callback a http status code, and a payload object
-//     callback(406, {'name': 'sample handler'});
-// }
-
-
-//ping handler
-handlers.ping = function(data, callback){
-    callback(200);
-};
-handlers.hello = function(data, callback){
-    callback(200, 
-        [
-            {'id': '1'},
-            {'type': 'API'},
-            {'port': '3000'},
-            {'message': 'Welcome to the API'}
-
-        ]
-        
-    );
-};
-
-
-//not found handler
-
-handlers.notFound = function(data, callback){
-    callback(404);   
-}
 //define request router
 
 var router ={
     'ping': handlers.ping,
-    'hello': handlers.hello
+    'hello': handlers.hello,
+    'users': handlers.users
 }
